@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  {% load static %}
+  {% load inlinecss %}
+  {% inlinecss "bill/template.css" %}
+  <head>
+    <meta charset="utf-8">
+    <title>Elegance Bill</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+
+    <div id="container">
+      <p style="margin-left: 10px;
+      margin-top: 5px;">
+      Hi {{data.client.name}}, <br>
+          Below are you bill details.
+      </p> 
+    </div>
+
+    <div id="container">
+      <div class="invoice-top">
+        <section id="memo">
+          <div class="logo" style="margin-left: 10px;
+          margin-top: 5px;">
+            <span style="color: rgb(240, 95, 27);
+            font-weight: bold;
+            font-size: 25px;margin-top: 5px;">{{data.company_name}}</span>
+            <div>Bhandarkar Road | Aundh</div>
+            <div>+91 98815 97722</div>
+            <div>Issue Date: {{data.payment_details.date_of_payment}}</div>
+            <div>Bill Id: {{data.bill.id}}</div>
+          </div>
+
+        </section>
+        
+      <div class="clearfix"></div>
+      
+      </div> 
+      <div id="container"> 
+          <div class="invoice-body">
+              <div id="items">
+                
+                <table cellpadding="0" cellspacing="0">
+              
+                  <tr>
+                    <th></th>
+                    <th scope="col">Description</th>
+                    <th scope="col">No. Of Sessions</th>
+                    <th scope="col">Unit Amount</th>
+                  </tr>
+                  <tbody>
+                  {% for bill_description in data.bill_descriptions %}
+                  <tr>
+                    <th>{{forloop.counter}}</th>
+                    <td class="bold">{{bill_description.description}}</td>
+                    <td>{{bill_description.no_of_sessions}}</td>
+                    <td>{{bill_description.package_amount}}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+          
+              </div>
+
+              <hr size="1">
+        
+            
+              <div class="clearfix"></div>
+          </div>
+
+          <div id="sums">
+        
+            <table cellpadding="0" cellspacing="0">
+            {% if data.discount > "0" %}
+            <tr class="amount-total">
+              <th>Amount w/o Discount:</th>
+              <th>{{data.total_amount_w_o_discount}} Rs.</th>
+            </tr>
+      
+            <tr class="amount-total">
+                <th>Discount:</th>
+                <th>{{data.discount}}%</th>
+            </tr>
+      
+            {% endif %}
+            
+            <tr class="amount-total">
+              <th>Total:</th>
+              <th>{{data.bill.total_amount|floatformat:"1"}} Rs.</th>
+            </tr>
+            
+            <tr class="amount-total">
+                <th>Received Amount:</th>
+                <th>{{data.bill.received_amount|floatformat:"1"}} Rs.</th>
+              </tr>
+            <tr class="amount-total">
+               <th>Balance:</th>
+              <th>{{data.bill.balance|floatformat:"1"}} Rs.</th>
+            </tr>
+            
+            </table>
+            <div class="clearfix"></div>
+
+
+        <section id="terms">
+        
+    
+            <div class="payment-info">
+              
+              <div id="container" style="background-color:rgb(199, 194, 194);margin-right:100px;>
+                <span style="text-align: center;">&copy; {{data.payment_details.date_of_payment|slice:"0:4"}}  Elegance Wellness | All Rights  Reserved</span>
+              </div>
+            </div>
+          </div>
+    
+        </div> 
+          </div>
+      
+      </div>
+
+  </body>
+  {% endinlinecss %}
+</html>
